@@ -84,7 +84,7 @@ impl Default for PrometheusQueryParams {
 }
 
 /// Calls prometheus api along with client config, query and params
-pub fn run_prometheus(
+pub async fn run_prometheus(
     query: String,
     query_params: PrometheusQueryParams,
     prometheus_config: PrometheusConfig,
@@ -96,7 +96,7 @@ pub fn run_prometheus(
         });
     }
 
-    let client = reqwest::blocking::Client::builder()
+    let client = reqwest::Client::builder()
         .timeout(Duration::from_secs(prometheus_config.timeout as u64))
         .build()?;
 
@@ -130,14 +130,14 @@ pub fn run_prometheus(
         }
     }
 
-    let response = client.get(&url).query(&params).send()?;
+    let response = client.get(&url).query(&params).send().await?;
     if !response.status().is_success() {
         return Err(PrometheusError {
-            msg: format!("Prometheus return API error code: {:?}", response.text()),
+            msg: format!("Prometheus return API error code: {:?}", response.text().await),
         });
     }
 
-    let prometheus_res: PrometheusResponse = response.json()?;
+    let prometheus_res: PrometheusResponse = response.json().await?;
     Ok(prometheus_res)
 }
 
