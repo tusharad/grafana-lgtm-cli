@@ -133,7 +133,10 @@ pub async fn run_prometheus(
     let response = client.get(&url).query(&params).send().await?;
     if !response.status().is_success() {
         return Err(PrometheusError {
-            msg: format!("Prometheus return API error code: {:?}", response.text().await),
+            msg: format!(
+                "Prometheus return API error code: {:?}",
+                response.text().await
+            ),
         });
     }
 
