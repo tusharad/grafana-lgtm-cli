@@ -1,6 +1,5 @@
-use axum::{Router, routing::post};
-
 use crate::api::handlers::ask_handler;
+use axum::{Router, routing::post};
 
 pub async fn start_server(port: u16) -> Result<(), Box<dyn std::error::Error>> {
     let app = Router::new().route("/api/v1/ask", post(ask_handler));

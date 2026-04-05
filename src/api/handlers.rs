@@ -1,5 +1,5 @@
 use crate::core::engine::process_natural_language_query;
-use axum::{Json, extract::State};
+use axum::Json;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]

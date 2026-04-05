@@ -1,6 +1,3 @@
-use crate::client;
-use crate::llm;
-
 use crate::client::prometheus::{
     PrometheusConfig, PrometheusQueryParams, PrometheusResponse, run_prometheus,
 };
